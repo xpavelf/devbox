@@ -8,6 +8,8 @@ Vagrant.configure('2') do |config|
   config.vm.hostname = 'devbox'
   config.vm.network :private_network, ip: '192.168.0.100'
   config.vm.synced_folder '~/git', '/git'
+  config.vm.synced_folder '~/Downloads', '/vagrant/home/Downlaods'
+  config.vm.synced_folder '~/Desktop', '/vagrant/home/Desktop'
 
   config.vm.provider :virtualbox do |vb|
     vb.name = 'devbox'
@@ -33,6 +35,7 @@ Vagrant.configure('2') do |config|
   config.vm.provision 'shell', inline: 'mkdir -p /etc/docker/certs.d/gitlab.invasys.org:5001/ && mv ca.crt /etc/docker/certs.d/gitlab.invasys.org:5001/'
 
   config.vm.provision 'file', source: '~/.ssh', destination: '.ssh'
+  config.vm.provision 'file', source: 'bin', destination: '~/bin'
 
   config.vm.provision :shell, :inline => "sudo rm /etc/localtime && sudo ln -s /usr/share/zoneinfo/Europe/Prague /etc/localtime", run: "always"
   config.vm.provision 'shell', privileged: false, path: 'provision/deb.sh', name: 'deb.sh'
