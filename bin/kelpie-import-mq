@@ -1,7 +1,8 @@
 #!/bin/bash
 
 DUMP_FILE=$1
+DUMP_FILE_NAME=$(basename $DUMP_FILE)
 MONGO_ID=$(docker ps -q -f name=mongo)
 
-docker cp $DUMP_FILE $MONGO_ID:/tmp/$DUMP_FILE
-docker exec $MONGO_ID mongoimport -d mq -c decryptor_inventory /tmp/$DUMP_FILE
+docker cp $DUMP_FILE $MONGO_ID:/tmp/$DUMP_FILE_NAME
+docker exec $MONGO_ID mongoimport -d mq -c decryptor_inventory /tmp/$DUMP_FILE_NAME
